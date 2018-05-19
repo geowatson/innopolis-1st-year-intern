@@ -1,0 +1,1 @@
+docker build ./CV_root/ -t cv_root
