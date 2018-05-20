@@ -2,3 +2,5 @@ version: "2"
 services:
   cv:
     image: cv_root
+    ports:
+      - "5001:5001"
