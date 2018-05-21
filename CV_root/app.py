@@ -1,7 +1,7 @@
 import cv2
 import socket
 import time
-from Recognizer import get_recognizer
+from recognizer import get_recognizer
 from const import subjects, face_cascade
 
 face_recognizer = get_recognizer()
