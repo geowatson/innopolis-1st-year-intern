@@ -11,10 +11,16 @@ def get_recognizer():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     ##### STEP 3 ##### - Train recognizer on data set
     recognizer.train(faces, np.array(labels))
+    ##### STEP 4 ##### - Recognizer ready to recognize
     return recognizer
 
 
 def detect_face(img):
+    """
+    Method uses face_cascade to capture face on image
+    :param img: image with face
+    :return: face image and its coordinates if found None otherwise
+    """
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(
         gray_img,
@@ -34,14 +40,15 @@ def detect_face(img):
 
 def prepare_training_data(data_folder_path="training-data"):
     """
-    Go through all images in data_folder_path and detect faces on them
-    :param data_folder_path:
+    Method goes through all images in data_folder_path and detect faces on them
+    :param data_folder_path: path to folder with objects images
     :return: faces vector and label vector
     """
 
     faces = []
     labels = []
 
+    # goes through main folder
     for folder in os.listdir(data_folder_path):
 
         if not folder.startswith("s"):
@@ -51,6 +58,7 @@ def prepare_training_data(data_folder_path="training-data"):
 
         subject_dir_path = data_folder_path + "/" + folder
 
+        # goes through sub folder of object
         for image_name in os.listdir(subject_dir_path):
 
             if image_name.startswith("."):

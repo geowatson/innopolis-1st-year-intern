@@ -4,7 +4,13 @@ import time
 from recognizer import get_recognizer
 from const import subjects, face_cascade
 
+
 def detect_faces(img):
+    """
+    Method uses face_cascade to capture face on image
+    :param img: image with faces
+    :return: list of coordinates of captured faces
+    """
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(
         gray_img,
@@ -20,6 +26,7 @@ def detect_faces(img):
 face_recognizer = get_recognizer()
 
 video_capture = cv2.VideoCapture(0)
+
 
 # watch ip camera stream
 while True:
