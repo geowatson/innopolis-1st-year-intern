@@ -1,5 +1,6 @@
 import os
 import cv2
+import time
 
 data_folder_path = 'training-data'
 
@@ -17,5 +18,6 @@ video_capture = cv2.VideoCapture(0)
 for i in range(50):
     ret, frame = video_capture.read()
     cv2.imwrite(dir_name+'/'+str(i)+'.jpg', frame)
+    time.sleep(0.5)
 
 
