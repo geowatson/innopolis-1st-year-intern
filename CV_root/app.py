@@ -36,7 +36,7 @@ while True:
             label = face_recognizer.predict(cv2.cvtColor(frame[y:y + w, x:x + h], cv2.COLOR_BGR2GRAY))
 
             # print face prediction
-            if label[1] < 30.0:
+            if label[1] < 25.0:
                 label_text = subjects[label[0]]
                 cv2.putText(frame, label_text, (x, y), cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 255, 0), 2)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
