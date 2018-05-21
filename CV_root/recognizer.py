@@ -16,7 +16,13 @@ def get_recognizer():
 
 def detect_face(img):
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray_img, scaleFactor=1.2, minNeighbors=5);
+    faces = face_cascade.detectMultiScale(
+        gray_img,
+        scaleFactor=1.1,
+        minNeighbors=5,
+        minSize=(100, 100),
+        flags=cv2.CASCADE_SCALE_IMAGE
+    )
 
     if (len(faces) == 0):
         return None, None
