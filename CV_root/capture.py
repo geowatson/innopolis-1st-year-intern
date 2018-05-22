@@ -2,6 +2,7 @@ import os
 import cv2
 import time
 import math
+from const import subjects, face_cascade
 
 def get_path(shape):
     path = []
@@ -36,7 +37,6 @@ def data_capture1(n, data_folder_path):
     t2 = divmod(int(time.time() / 2), 10)[1]
     counter = 0
     colore = (255, 255, 0)
-    flag = True
     dele = int(time.time()) + 9
     while True:
         try:
@@ -51,7 +51,22 @@ def data_capture1(n, data_folder_path):
 
                 if (int(time.time()) - t2 > 2):
                     colore = (0, 0, 255)
-                    cv2.imwrite(dir_name + '/' + str(counter) + '_'+str(point)+'.jpg', pic)
+                    gray_img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                    faces = face_cascade.detectMultiScale(
+                        gray_img,
+                        scaleFactor=1.1,
+                        minNeighbors=5,
+                        minSize=(100, 100),
+                        flags=cv2.CASCADE_SCALE_IMAGE
+                    )
+
+                    if (len(faces) == 0):
+                        continue
+
+                    (x, y, w, h) = faces[0]
+                    g = gray_img[y:y + w, x:x + h]
+                    cv2.imwrite(dir_name + '/' + str(counter) + '_'+str(point)+'.jpg', g)
+
                 if t != divmod(int(time.time() / 4), 10)[1]:
                     t = divmod(int(time.time() / 4), 10)[1]
                     t2 = int(time.time())
@@ -82,9 +97,23 @@ def data_capture2(n, data_folder_path):
     video_capture = cv2.VideoCapture(0)
     for i in range(100):
         ret, frame = video_capture.read()
-        cv2.imwrite(dir_name + '/' + str(i) + '.jpg', frame)
+        gray_img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(
+            gray_img,
+            scaleFactor=1.1,
+            minNeighbors=5,
+            minSize=(100, 100),
+            flags=cv2.CASCADE_SCALE_IMAGE
+        )
+
+        if (len(faces) == 0):
+            continue
+
+        (x, y, w, h) = faces[0]
+        g = gray_img[y:y + w, x:x + h]
+        cv2.imwrite(dir_name + '/' + str(i) + '.jpg', g)
 
 
 data_folder_path = 'training-data'
 n = input()
-data_capture1(n, data_folder_path)
+data_capture2(n, data_folder_path)
