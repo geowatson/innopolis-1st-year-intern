@@ -5,9 +5,12 @@ from face_trace import detect_faces
 from normalizator import normalize
 
 
-def predict_obj(img, obj):
+def predict_obj(img):
+    # looking for faces in frame
+    faces = detect_faces(frame)
+
     # Draw a rectangle around the faces
-    for (x, y, w, h) in obj:
+    for (x, y, w, h) in faces:
         # predict person
         label = face_recognizer.predict(img[y:y + w, x:x + h])
 
@@ -22,25 +25,14 @@ face_recognizer = get_recognizer()
 
 video_capture = cv2.VideoCapture(0)
 
-pre_frame = None
-
 # watch ip camera stream
 while True:
     try:
         # Capture frame-by-frame
         ret, frame = video_capture.read()
-        flag, frame = normalize(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        # if we don't see face
-        if not flag and (pre_frame is not None):
-            frame = pre_frame
-        else:
-            # looking for faces in frame
-            faces = detect_faces(frame)
-
-            predict_obj(frame, faces)
-
-            pre_frame = frame
+        predict_obj(frame)
 
         # Display the resulting frame
         cv2.imshow('Video', frame)
