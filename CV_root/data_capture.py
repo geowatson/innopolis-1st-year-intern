@@ -4,6 +4,7 @@ import time
 import math
 from const import subjects, face_cascade
 
+
 def get_path(shape):
     path = []
     center = (int(shape[1] / 2), int(shape[0] / 2))
