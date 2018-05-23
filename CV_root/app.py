@@ -1,52 +1,46 @@
 import cv2
-import socket
-import time
 from recognizer import get_recognizer
 from const import subjects, face_cascade
+from face_trace import detect_faces
+from normalizator import normalize
 
 
-def detect_faces(img):
-    """
-    Method uses face_cascade to capture face on image
-    :param img: image with faces
-    :return: list of coordinates of captured faces
-    """
-    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(
-        gray_img,
-        scaleFactor=1.1,
-        minNeighbors=5,
-        minSize=(100, 100),
-        flags=cv2.CASCADE_SCALE_IMAGE
-    )
+def predict_obj(img, obj):
+    # Draw a rectangle around the faces
+    for (x, y, w, h) in obj:
+        # predict person
+        label = face_recognizer.predict(img[y:y + w, x:x + h])
 
-    return faces
+        # print face prediction
+        if label[1] < 25.0:
+            label_text = subjects[label[0]]
+            cv2.putText(img, label_text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 0, 255), 2)
+        cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
 
 face_recognizer = get_recognizer()
 
 video_capture = cv2.VideoCapture(0)
 
+pre_frame = None
 
 # watch ip camera stream
 while True:
     try:
         # Capture frame-by-frame
         ret, frame = video_capture.read()
+        flag, frame = normalize(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
 
-        # looking for faces in frame
-        faces = detect_faces(frame)
+        # if we don't see face
+        if not flag and (pre_frame is not None):
+            frame = pre_frame
+        else:
+            # looking for faces in frame
+            faces = detect_faces(frame)
 
-        # Draw a rectangle around the faces
-        for (x, y, w, h) in faces:
-            # predict person
-            label = face_recognizer.predict(cv2.cvtColor(frame[y:y + w, x:x + h], cv2.COLOR_BGR2GRAY))
+            predict_obj(frame, faces)
 
-            # print face prediction
-            if label[1] < 25.0:
-                label_text = subjects[label[0]]
-                cv2.putText(frame, label_text, (x, y-10), cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 0, 255), 2)
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            pre_frame = frame
 
         # Display the resulting frame
         cv2.imshow('Video', frame)

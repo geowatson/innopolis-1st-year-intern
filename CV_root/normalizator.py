@@ -42,28 +42,30 @@ def normalize(gray_img):
     return False, gray_img
 
 
-video_capture = cv2.VideoCapture(0)
+def normalize_video_stream():
+    video_capture = cv2.VideoCapture(0)
 
-# watch ip camera stream
-while True:
-    try:
-        # Capture frame-by-frame
-        ret, frame = video_capture.read()
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        flag, frame = normalize(frame)
+    # watch ip camera stream
+    while True:
+        try:
+            # Capture frame-by-frame
+            ret, frame = video_capture.read()
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            # normalization
+            flag, frame = normalize(frame)
 
-        faces = detect_faces(frame)
-        for (x, y, w, h) in faces:
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 0), 2)
+            faces = detect_faces(frame)
+            for (x, y, w, h) in faces:
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 0), 2)
 
-        # Display the resulting frame
-        cv2.imshow('Video', frame)
+            # Display the resulting frame
+            cv2.imshow('Video', frame)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    except KeyError:
-        continue
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        except KeyError:
+            continue
 
-# When everything is done, release the capture
-video_capture.release()
-cv2.destroyAllWindows()
+    # When everything is done, release the capture
+    video_capture.release()
+    cv2.destroyAllWindows()
