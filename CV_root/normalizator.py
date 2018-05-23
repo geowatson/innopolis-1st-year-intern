@@ -33,8 +33,8 @@ def detect_eyes(img):
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = eye_cascade.detectMultiScale(
         gray_img,
-        scaleFactor=1.1,
-        minNeighbors=3,
+        scaleFactor=1.3,
+        minNeighbors=5,
         flags=cv2.CASCADE_SCALE_IMAGE
     )
 
