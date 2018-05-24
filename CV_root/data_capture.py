@@ -4,6 +4,7 @@ import time
 import math
 from const import subjects, face_cascade
 from normalizator import normalize
+from face_trace import detect_faces
 
 def get_path(shape):
     path = []
@@ -57,13 +58,7 @@ def data_capture1(n, data_folder_path='training-data'):
                 if int(time.time()) - t2 > 2:
                     colore = (0, 0, 255)
                     flag, pic = normalize(pic)
-                    faces = face_cascade.detectMultiScale(
-                        pic,
-                        scaleFactor=1.1,
-                        minNeighbors=5,
-                        minSize=(100, 100),
-                        flags=cv2.CASCADE_SCALE_IMAGE
-                    )
+                    faces = detect_faces(pic)
 
                     if len(faces) == 0 or not flag:
                         penalty = True
@@ -97,6 +92,7 @@ def data_capture1(n, data_folder_path='training-data'):
 
 
 def data_capture2(n, data_folder_path='training-data'):
+    count = 100
     dirs = os.listdir(data_folder_path)
 
     if 's' + n not in dirs:
@@ -105,24 +101,23 @@ def data_capture2(n, data_folder_path='training-data'):
     dir_name = data_folder_path + '/s' + n
 
     video_capture = cv2.VideoCapture(0)
-    for i in range(100):
+
+    while count:
+        print('lol')
         ret, frame = video_capture.read()
         gray_img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         flag, gray_img = normalize(gray_img)
-        faces = face_cascade.detectMultiScale(
-            gray_img,
-            scaleFactor=1.1,
-            minNeighbors=5,
-            minSize=(100, 100),
-            flags=cv2.CASCADE_SCALE_IMAGE
-        )
 
-        if (len(faces) == 0):
+        faces = detect_faces(gray_img)
+
+        if len(faces) == 0 or not flag:
             continue
 
         (x, y, w, h) = faces[0]
-        g = gray_img[y:y + w, x:x + h]
-        cv2.imwrite(dir_name + '/' + str(i) + '.jpg', g)
+
+        save = gray_img[y:y + w, x:x + h]
+        cv2.imwrite(dir_name + '/' + str(count) + '.jpg', save)
+        count -= 1
 
 
 n = input()

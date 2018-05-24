@@ -3,6 +3,7 @@ import numpy as np
 from face_trace import detect_faces, detect_eyes
 
 
+# TODO nose tracking
 def normalize(gray_img):
     """
     Method normalize gray_img by sea
@@ -69,3 +70,4 @@ def normalize_video_stream():
     # When everything is done, release the capture
     video_capture.release()
     cv2.destroyAllWindows()
+
