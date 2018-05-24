@@ -1,7 +1,7 @@
 import cv2
 import socket
 import time
-from const import subjects, face_cascade, eye_cascade
+from const import subjects, face_cascade, eye_cascade, smile_cascade
 
 
 def detect_faces(gray_img):
@@ -53,13 +53,13 @@ def video_stream():
 
             # looking for faces in frame
             eyes = detect_eyes(frame)
+            faces = detect_faces(frame)
 
             # Draw a rectangle around the faces
             if len(eyes) == 2:
                 for (x, y, w, h) in eyes:
                     cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 0), 2)
 
-            faces = detect_faces(frame)
             for (x, y, w, h) in faces:
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
