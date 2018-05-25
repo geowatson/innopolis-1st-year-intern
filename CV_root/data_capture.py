@@ -2,7 +2,6 @@ import os
 import cv2
 import time
 import math
-from const import subjects, face_cascade
 from normalizator import normalize
 from face_trace import detect_faces
 
@@ -24,6 +23,12 @@ def get_path(shape):
 
 
 def data_capture1(n, data_folder_path='training-data'):
+    """
+    in progress
+    :param n:
+    :param data_folder_path:
+    :return:
+    """
     dirs = os.listdir(data_folder_path)
 
     if 's' + n not in dirs:
@@ -92,6 +97,12 @@ def data_capture1(n, data_folder_path='training-data'):
 
 
 def data_capture2(n, data_folder_path='training-data'):
+    """
+
+    :param n:
+    :param data_folder_path:
+    :return:
+    """
     count = 100
     dirs = os.listdir(data_folder_path)
 
@@ -106,6 +117,7 @@ def data_capture2(n, data_folder_path='training-data'):
         print('lol')
         ret, frame = video_capture.read()
         gray_img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
         flag, gray_img = normalize(gray_img)
 
         faces = detect_faces(gray_img)

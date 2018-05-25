@@ -1,7 +1,5 @@
 import cv2
-import socket
-import time
-from const import subjects, face_cascade, eye_cascade, smile_cascade
+from const import face_cascade, eye_cascade
 
 
 def detect_faces(gray_img):

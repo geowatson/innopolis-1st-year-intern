@@ -6,9 +6,9 @@ from face_trace import detect_faces, detect_eyes
 # TODO nose tracking
 def normalize(gray_img):
     """
-    Method normalize gray_img by sea
+    Method normalize gray_img by line of eyes
     :param gray_img:
-    :return:
+    :return: Flag - Are there eyes or not, normalize picture
     """
     eyes = detect_eyes(gray_img)
 
