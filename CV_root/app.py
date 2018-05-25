@@ -3,12 +3,8 @@ import sys
 from recognizer import Recognizer
 
 
-if len(sys.argv) != 0:
-    door_ip = sys.argv[0]  # e.g. localhost, 192.168.1.123
-else:
-    door_ip = '10.91.36.52:8080'
+door_ip = '10.91.36.52:8080'
 
-print(door_ip)
 
 face_recognizer = Recognizer(door_ip)
 

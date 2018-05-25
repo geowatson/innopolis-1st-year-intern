@@ -114,7 +114,6 @@ def data_capture2(n, data_folder_path='training-data'):
     video_capture = cv2.VideoCapture(0)
 
     while count:
-        print('lol')
         ret, frame = video_capture.read()
         gray_img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 

@@ -98,10 +98,10 @@ class Recognizer:
             label = self.recognizer.predict(grey_img[y:y + w, x:x + h])
 
             # print face prediction
-            if label[1] < 30.0:
+            if label[1] < 27.0:
                 label_text = subjects[label[0]]
                 # confirmation of the person
-                # camera.success(name=label_text)
+                self.camera.success(name=label_text)
 
                 # For test streaming
                 cv2.putText(base_img, label_text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 1.7, (0, 0, 255), 2);
