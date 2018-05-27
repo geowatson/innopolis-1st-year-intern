@@ -10,5 +10,3 @@ COPY ./ /usr/src/app
 WORKDIR /usr/src/app
 
 ENTRYPOINT ["python", "./app.py"]
-
-# 10.91.42.90:8080 10.91.34.72:8080 30
