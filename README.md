@@ -3,8 +3,9 @@ dev
 v1.1
 
 # Usage:
-put local `host ip` in `door_example/app.py` and run it to launch server
-put parameters (`door_ip`, `cam_ip`, `accuracy`) in run.sh and launch it (Docker install require)
+Put local `host ip` in `door_example/app.py` and run it to launch server.
+
+Put parameters (`door_ip`, `cam_ip`, `accuracy`) in run.sh and launch it (Docker install require).
 
 Done. You will see massages in `door_example/app.py` console
 

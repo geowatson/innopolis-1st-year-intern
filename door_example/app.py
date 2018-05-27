@@ -15,4 +15,5 @@ def home():
 
 
 if __name__ =="__main__":
+    # put host ip here
     app.run(debug=True,port=8080,host='10.91.42.90')
