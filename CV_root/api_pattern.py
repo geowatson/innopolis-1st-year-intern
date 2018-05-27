@@ -3,12 +3,13 @@ import requests as rq
 import time
 
 
-class Camera:
+class Door:
     addr = "http://"
     door_id = 0
 
     def __init__(self, **kwargs):
         self.addr += kwargs['ip'] + '/'
+        rq.get(self.addr + 'init')
         door_id = int(kwargs['door_id'])
         self.addr += "?door_id=" + str(door_id)
         self.delay = 0

@@ -3,14 +3,15 @@ import os
 import numpy as np
 from const import subjects, face_cascade
 from face_trace import detect_faces
-from api_pattern import Camera
+from api_pattern import Door
 
 
 class Recognizer:
     """
     Class responsible for detecting and reporting of person
     """
-    def __init__(self, cam_ip):
+
+    def __init__(self, door_id, accuracy):
         ##### STEP 1 ##### - Prepare image data set
         faces, labels = self.prepare_training_data()
         ##### STEP 2 ##### - Create new instance of recognizer
@@ -19,7 +20,8 @@ class Recognizer:
         recognizer.train(faces, np.array(labels))
         ##### STEP 4 ##### - Recognizer ready to recognize
         self.recognizer = recognizer
-        self.camera = Camera(ip=cam_ip, door_id=1)
+        self.door = Door(ip=door_id, door_id=1)
+        self.accuracy = accuracy
 
     def detect_face(self, img):
         """
@@ -98,11 +100,12 @@ class Recognizer:
             label = self.recognizer.predict(grey_img[y:y + w, x:x + h])
 
             # print face prediction
-            if label[1] < 27.0:
+            if label[1] < self.accuracy:
                 label_text = subjects[label[0]]
                 # confirmation of the person
-                self.camera.success(name=label_text)
+                self.door.success(name=label_text)
 
+                # TODO remove
                 # For test streaming
                 cv2.putText(base_img, label_text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 1.7, (0, 0, 255), 2);
-                cv2.rectangle(base_img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            cv2.rectangle(base_img, (x, y), (x + w, y + h), (0, 255, 0), 2)
