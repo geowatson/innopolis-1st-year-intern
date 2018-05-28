@@ -1,6 +1,7 @@
 from recognizer import Recognizer
 import sys
 import cv2
+import requests
 
 
 # parameters for connection (door_ip, cam_ip, accuracy)
@@ -17,6 +18,8 @@ except IndexError:
 face_recognizer = Recognizer(door_ip, accuracy)
 
 video_capture = cv2.VideoCapture('http://'+cam_ip)
+#video_capture = cv2.VideoCapture(0)
+
 
 # watch ip camera stream
 while True:
@@ -28,12 +31,20 @@ while True:
         face_recognizer.predict_obj(frame)
 
         # Display the resulting frame (optional)
-        # cv2.imshow('Video', frame)
+        cv2.imshow('Video', frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     except KeyError:
         continue
+    except requests.exceptions.ConnectionError:
+        print('connection refuse')
+        exit(0)
+    except KeyboardInterrupt:
+        print('program stopped')
+        exit(0)
+
+# TODO connection refuse in recognizer.py
 
 # When everything is done, release the capture
 video_capture.release()
