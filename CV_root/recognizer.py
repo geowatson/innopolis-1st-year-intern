@@ -107,5 +107,8 @@ class Recognizer:
 
                 # TODO remove
                 # For test streaming
-                cv2.putText(base_img, label_text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 1.7, (0, 0, 255), 2);
+            else:
+                label_text = 'Unknown'
+
+            cv2.putText(base_img, label_text, (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 1.7, (0, 0, 255), 2);
             cv2.rectangle(base_img, (x, y), (x + w, y + h), (0, 255, 0), 2)
