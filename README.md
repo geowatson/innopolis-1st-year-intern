@@ -1,6 +1,7 @@
 # innopolis-1st-year-intern
 dev
 v1.2
+This project was a part of the innopolis summer internship. Topic: Facial recognition system; All code here is responsible for creating facial recognition system based on openCV libraries. Program able to record person, recognize, connect to ip camera, send request on server (read documentation). If you have question write me: `p.nikulin@innopolis.ru`
 
 ## Usage:
 Put local `host ip` in `door_example/app.py` and run it to launch server.
